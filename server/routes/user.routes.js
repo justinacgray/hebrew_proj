@@ -1,9 +1,12 @@
-const UserController = require("../controllers/user.controller");
+const userController = require("../controllers/user.controller");
 
-module.exports = app => {
-    app.get("/api/pets/", UserController.findAllUsers);
-    app.get("/api/pets/:id", UserController.findOneSingleUser);
-    app.put("/api/pets/update/:id", UserController.updateUser);
-    app.post("/api/pets/new", UserController.createNewUser);
-    app.delete("/api/pets/delete/:id", UserController.deleteUser);
+const { authenticate } = require("../config/jwt.config");
+
+module.exports = (app) => {
+  app.post("/api/register", userController.register);
+  app.post("/api/login", userController.login);
+  app.post("/api/logout", userController.logout);
+
+  app.get("/api/users", authenticate, userController.getAll);
+  app.get("/api/users/loggedin", authenticate, userController.getLoggedInUser);
 };

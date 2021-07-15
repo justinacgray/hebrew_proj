@@ -1,20 +1,26 @@
+require("dotenv").config();
+
 const express = require("express");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
-const bodyParser = require('body-parser');
-require('dotenv').config();
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+// const port = 8000;
 
-const routes = require("./routes/hebrew_app");
-require("./config/mongoose.config");
+require("./routes/user.routes")(app);
+require("./config/mongoose.config")(process.env.DB_NAME);
 
-app.use(cors());
+app.use(express.json());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 app.use(express.json(), express.urlencoded({ extended: true }));
-const port = 8000;
+app.use(cookieParser());
 
-routes(app);
-app.listen(port, () => console.log(`Listening on port: ${port}`));
-
-
-
-
+app.listen(process.env.DB_PORT, () =>
+  console.log(`Listening on port: ${process.env.DB_PORT}`)
+);
