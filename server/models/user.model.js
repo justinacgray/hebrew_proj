@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const UserSignUpSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: [true, "Frist name is required"],
+      required: [true, "First name is required"],
       minlength: [2, "First name must be at least 2 charactes long"],
     },
     lastName: {
@@ -35,18 +35,18 @@ const UserSignUpSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-UserSignUpSchema.virtual("confirmPassword")
+UserSchema.virtual("confirmPassword")
   .get(() => this._confirmPassword)
   .set((value) => (this._confirmPassword = value));
 
-UserSignUpSchema.pre("validate", function (next) {
+UserSchema.pre("validate", function (next) {
   if (this.password !== this.confirmPassword) {
     this.invalidate("confirmPassword", "Passwords do not match");
   }
   next();
 });
 
-UserSignUpSchema.pre("save", function (next) {
+UserSchema.pre("save", function (next) {
   bcrypt.hash(this.password, 12).then((hash) => {
     this.password = hash;
     next();
@@ -54,6 +54,6 @@ UserSignUpSchema.pre("save", function (next) {
 });
 
 // module.exports = mongoose.model("User", UserSignUpSchema);
-const User = mongoose.model("User", UserSignUpSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

@@ -25,11 +25,12 @@ module.exports.findOneSingleWord = (req, res) => {
 };
 
 module.exports.createNewWord = (req, res) => {
-  console.log(req, body);
-  Word.create(req.body)
-    .then((newlyCreatedWord=> res.json({ word: newlyCreatedWord }))
+  console.log(req.body);
+  // res.sendFile(`${_dirname}/public/${req.file.filename}`);
+  Word.create(req.file)
+    .then((newlyCreatedWord) => res.send({ word: newlyCreatedWord }))
     .catch((err) =>
-      res.json({
+      res.send({
         message: "Something went wrong. Can't CREATE a word",
         error: err,
       })
@@ -48,7 +49,8 @@ module.exports.updateWord = (req, res) => {
 };
 
 module.exports.deleteWord = (req, res) => {
-  word.deleteOne({ _id: req.params.id })
+  word
+    .deleteOne({ _id: req.params.id })
     .then((result) => res.json({ result: result }))
     .catch((err) =>
       res.json({

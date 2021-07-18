@@ -4,6 +4,10 @@ module.exports = (app) => {
   app.get("/api/words/", WordController.findAllWords);
   app.get("/api/words/:id", WordController.findOneSingleWord);
   app.put("/api/words/update/:id", WordController.updateWord);
-  app.post("/api/words/new", WordController.createNewWord);
+  app.post(
+    "/api/words/new",
+    // upload.single("image"),
+    WordController.createNewWord
+  );
   app.delete("/api/words/delete/:id", WordController.deleteWord);
 };

@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
   register: (req, res) => {
+    console.log("register");
     const user = new User(req.body);
+    console.log(req.body);
     user
       .save()
       .then(() => {
@@ -14,6 +16,8 @@ module.exports = {
   },
 
   login(req, res) {
+    //do they exist in db
+    //typicall use emails for uniqueness
     User.findOne({ userName: req.body.userName })
       .then((user) => {
         if (user === null) {

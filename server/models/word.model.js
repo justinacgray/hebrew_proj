@@ -2,21 +2,20 @@ const mongoose = require("mongoose");
 
 const WordSchema = new mongoose.Schema(
   {
-    name: {
+    letterName: {
       type: String,
     },
     image: {
       type: String,
     },
+    description: {
+      type: String,
+    },
     meaning: {
       type: String,
     },
-    Description: {
+    pronounced: {
       type: String,
-    },
-    list_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "List",
     },
   },
   { timestamps: true }

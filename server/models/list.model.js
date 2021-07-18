@@ -13,6 +13,12 @@ const ListSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  word_ids: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Word",
+    },
+  ],
 });
 
 const List = mongoose.model("List", ListSchema);
