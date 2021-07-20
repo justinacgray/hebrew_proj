@@ -2,7 +2,7 @@ const Word = require("../models/word.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-module.exports.findallWords = (req, res) => {
+module.exports.findAllWords = (req, res) => {
   Word.find()
     .then((allWords) => res.json({ words: allwords }))
     .catch((err) =>
@@ -10,7 +10,7 @@ module.exports.findallWords = (req, res) => {
         message: "Something went wrong. Can't GET all the words",
         error: err,
       })
-    ); //if it's false
+    );
 };
 
 module.exports.findOneSingleWord = (req, res) => {
@@ -25,17 +25,40 @@ module.exports.findOneSingleWord = (req, res) => {
 };
 
 module.exports.createNewWord = (req, res) => {
-  console.log(req.body);
-  // res.sendFile(`${_dirname}/public/${req.file.filename}`);
-  Word.create(req.file)
-    .then((newlyCreatedWord) => res.send({ word: newlyCreatedWord }))
+  Word.create(req.body) // used .body b/c of new info
+    .then((newlyCreatedWord) => res.json({ word: newlyCreatedWord }))
     .catch((err) =>
-      res.send({
+      res.json({
         message: "Something went wrong. Can't CREATE a word",
         error: err,
       })
     );
 };
+
+//   const url = req.protocol + "://" + req.get("host");
+//   const word = new Word({
+//     _id: new mongoose.Types.ObjectId(),
+//     name: req.body.name,
+//     letterImage: url + "/public/" + req.file.filename,
+//   });
+//   user
+//     .save()
+//     .then((result) => {
+//       res.status(201).json({
+//         message: "Word Created!",
+//         userCreated: {
+//           _id: result._id,
+//           letterImage: result.letterImage,
+//         },
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err),
+//         res.status(500).json({
+//           error: err,
+//         });
+//     });
+// };
 
 module.exports.updateWord = (req, res) => {
   Word.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })

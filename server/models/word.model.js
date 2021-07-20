@@ -5,7 +5,7 @@ const WordSchema = new mongoose.Schema(
     letterName: {
       type: String,
     },
-    image: {
+    letterImage: {
       type: String,
     },
     description: {
